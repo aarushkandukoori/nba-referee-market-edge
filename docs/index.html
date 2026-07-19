@@ -3,191 +3,111 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Referee Crew Edge — Does the market underreact?</title>
-  <meta name="description" content="A leakage-safe walk-forward backtest of whether NBA referee crews create a predictable edge on game totals in prediction markets. Honest null result." />
-  <meta name="robots" content="index,follow" />
-  <!-- Project Pages only — no custom domain / no CNAME. Lives at *.github.io/nba-referee-market-edge/ -->
+  <title>REFEDGE — Does the crew move the total?</title>
+  <meta name="description" content="A scroll-through of a leakage-safe NBA referee-crew market backtest." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=IBM+Plex+Mono:wght@400;500&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
-  <div class="noise" aria-hidden="true"></div>
-  <div class="scroll-progress" aria-hidden="true"><i></i></div>
+  <div class="progress" aria-hidden="true"><i id="bar"></i></div>
 
-  <header class="topbar">
-    <a class="mark" href="#top">REFEDGE</a>
-    <nav class="topnav">
-      <a href="#question">Question</a>
-      <a href="#method">Method</a>
-      <a href="#result">Result</a>
-      <a href="https://github.com/aarushkandukoori/nba-referee-market-edge" target="_blank" rel="noopener">GitHub</a>
-    </nav>
-  </header>
+  <!-- STAGE: fixed basketball world -->
+  <div class="stage" aria-hidden="true">
+    <svg class="court" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
+      <rect class="floor" x="0" y="0" width="100" height="100" />
+      <g class="paint" opacity="0.9">
+        <rect x="38" y="0" width="24" height="28" fill="none" stroke="currentColor" stroke-width="0.35" />
+        <circle cx="50" cy="28" r="9" fill="none" stroke="currentColor" stroke-width="0.35" />
+        <line x1="0" y1="50" x2="100" y2="50" stroke="currentColor" stroke-width="0.35" />
+        <circle cx="50" cy="50" r="12" fill="none" stroke="currentColor" stroke-width="0.35" />
+        <rect x="38" y="72" width="24" height="28" fill="none" stroke="currentColor" stroke-width="0.35" />
+        <circle cx="50" cy="72" r="9" fill="none" stroke="currentColor" stroke-width="0.35" />
+      </g>
+      <!-- hoop -->
+      <g class="hoop" transform="translate(50,8)">
+        <rect x="-6" y="-6" width="12" height="2.2" rx="0.3" class="backboard" />
+        <ellipse cx="0" cy="1.5" rx="3.2" ry="1.1" class="rim" />
+        <path class="net" d="M-2.8,1.5 L-2,7 M-1.4,1.5 L-1,7 M0,1.5 L0,7.5 M1.4,1.5 L1,7 M2.8,1.5 L2,7" />
+      </g>
+    </svg>
 
-  <!-- 1. HERO — one composition, brand first -->
-  <section class="hero" id="top">
-    <div class="hero-bg" aria-hidden="true">
-      <div class="court-lines"></div>
-      <div class="ticker" id="ticker"></div>
+    <div class="ball" id="ball">
+      <svg viewBox="0 0 64 64">
+        <circle cx="32" cy="32" r="30" fill="#e4572e" />
+        <path d="M32 2 C32 2 32 62 32 62 M2 32 H62 M12 12 C28 28 36 36 52 52 M52 12 C36 28 28 36 12 52"
+              fill="none" stroke="#1a120e" stroke-width="2.2" />
+      </svg>
     </div>
-    <div class="hero-copy">
+
+    <div class="refs" id="refs">
+      <span></span><span></span><span></span>
+    </div>
+
+    <div class="scoreboard" id="board">
+      <div class="sb-label">TOTAL</div>
+      <div class="sb-num" id="total">228.5</div>
+      <div class="sb-sub" id="sub">market line</div>
+    </div>
+
+    <div class="splash" id="splash"></div>
+  </div>
+
+  <!-- FILM: text chapters that scrub the stage -->
+  <main class="film">
+    <section class="beat" data-beat="0">
       <p class="brand">REFEDGE</p>
-      <h1>Do referee crews leave money on the total?</h1>
-      <p class="lede">A leakage-safe backtest of public NBA officiating crews against prediction-market game totals.</p>
-      <div class="cta-row">
-        <a class="cta" href="#question">Scroll the study</a>
-        <span class="pill">Research · not a trading bot</span>
-      </div>
-    </div>
-    <div class="scroll-hint" aria-hidden="true">
-      <span>scroll</span>
-      <b></b>
-    </div>
-  </section>
+      <h1>A movie about a null result.</h1>
+      <p>Scroll. Watch the ball. The study unfolds.</p>
+    </section>
 
-  <!-- 2. THE QUESTION -->
-  <section class="scene" id="question" data-scene="question">
-    <div class="scene-sticky">
-      <p class="eyebrow">01 · Thesis</p>
-      <h2>Public info. Liquid markets. Classic underreaction bet.</h2>
-      <div class="split">
-        <p>Some crews call more fouls, slow the pace, push free-throw attempts. Assignments post before tip. If Kalshi or Polymarket underweight that, over/under prices should be wrong in a predictable direction.</p>
-        <aside class="callout">
-          <span>Falsifiable claim</span>
-          <strong>Crew features improve out-of-sample P(over) vs a market + team baseline.</strong>
-        </aside>
-      </div>
-    </div>
-  </section>
+    <section class="beat" data-beat="1">
+      <p class="kicker">The question</p>
+      <h2>Do referee crews leave money on the total?</h2>
+      <p>Some crews call more fouls. Some slow the game. Assignments are public before tip. Maybe the market underreacts.</p>
+    </section>
 
-  <!-- 3. DATA -->
-  <section class="scene scene-dark" id="data" data-scene="data">
-    <div class="scene-sticky">
-      <p class="eyebrow">02 · Data</p>
-      <h2>Two layers, because the markets are shallow.</h2>
-      <div class="rail" id="data-rail">
-        <article class="rail-card">
-          <h3>Layer 1 · Stats</h3>
-          <p>5 seasons of games + 3 officials + team pace/FTA/3PA. Vegas closing total as the market control.</p>
-          <div class="stat"><em data-count="5041">0</em><span>training games</span></div>
-        </article>
-        <article class="rail-card">
-          <h3>Layer 2 · Prices</h3>
-          <p>Polymarket O/U contracts with 1-minute pre-tip prices. Kalshi totals only cover a short playoff window — not the primary backtest.</p>
-          <div class="stat"><em data-count="1838">0</em><span>walk-forward OOS games</span></div>
-        </article>
-        <article class="rail-card">
-          <h3>Cache everything</h3>
-          <p>Parquet on disk. Re-runs never re-hit rate-limited APIs. ESPN officials when stats.nba.com is blocked.</p>
-          <div class="stat"><em data-count="98">0</em><span>unique referees</span></div>
-        </article>
-      </div>
-    </div>
-  </section>
+    <section class="beat" data-beat="2">
+      <p class="kicker">The setup</p>
+      <h2>Three officials walk onto the floor.</h2>
+      <p>We track rolling foul, FTA, pace, and tech rates — only from games they worked <em>before</em> tonight. No peeking.</p>
+    </section>
 
-  <!-- 4. LEAKAGE -->
-  <section class="scene" id="method" data-scene="method">
-    <div class="scene-sticky">
-      <p class="eyebrow">03 · Anti-leakage</p>
-      <h2>The design fights cheating harder than it hunts an edge.</h2>
-      <ul class="checklist" id="checklist">
-        <li><b>Rolling refs only</b> — foul/FTA/pace from games strictly before tip</li>
-        <li><b>Shrinkage</b> — thin histories pull toward a time-varying league prior</li>
-        <li><b>Market line as control</b> — model hunts incremental signal, not the whole total</li>
-        <li><b>Walk-forward seasons</b> — train N…N+k, test N+k+1. No random splits</li>
-        <li><b>Permutation test</b> — shuffle crew labels; “edge” must disappear</li>
-        <li><b>Pre-tip prices</b> — last print before tip-off, never settlement</li>
-      </ul>
-    </div>
-  </section>
+    <section class="beat" data-beat="3">
+      <p class="kicker">The control</p>
+      <h2>The market already has a number.</h2>
+      <p>Closing total goes in as a feature. The model’s only job is incremental edge — not reinventing the whole score.</p>
+    </section>
 
-  <!-- 5. COMPARISON -->
-  <section class="scene scene-compare" id="compare" data-scene="compare">
-    <div class="scene-sticky">
-      <p class="eyebrow">04 · Experiment</p>
-      <h2>The result is the comparison.</h2>
-      <div class="vs">
-        <div class="vs-col">
-          <span class="tag">Baseline</span>
-          <h3>Market + team</h3>
-          <p>Closing total, rolling pace/FTA/3PA, rest, home/away. <em>No referee info.</em></p>
-        </div>
-        <div class="vs-mid" aria-hidden="true">vs</div>
-        <div class="vs-col treat">
-          <span class="tag">Treatment</span>
-          <h3>+ Crew features</h3>
-          <p>Same baseline, plus shrunk rolling crew foul/FTA/pace/tech signals.</p>
-        </div>
-      </div>
-      <p class="fine">Same LightGBM, same walk-forward folds. Only the feature set changes.</p>
-    </div>
-  </section>
+    <section class="beat" data-beat="4">
+      <p class="kicker">The test</p>
+      <h2>Baseline vs treatment. Same folds.</h2>
+      <p>Walk-forward by season. LightGBM twice: once without refs, once with. Then shuffle the crews and try again.</p>
+    </section>
 
-  <!-- 6. RESULT -->
-  <section class="scene scene-result" id="result" data-scene="result">
-    <div class="scene-sticky">
-      <p class="eyebrow">05 · Outcome</p>
-      <h2 class="null-stamp">No edge.</h2>
-      <p class="result-lede">Crew features did not beat the market+team baseline out of sample. The permutation test says the tiny gap is noise.</p>
-      <div class="metrics">
-        <div class="metric">
-          <span>Δ log-loss</span>
-          <strong class="bad">+0.00038</strong>
-          <em>treatment worse</em>
-        </div>
-        <div class="metric">
-          <span>Permutation p</span>
-          <strong data-count-float="0.57">0.00</strong>
-          <em>indistinguishable from null</em>
-        </div>
-        <div class="metric">
-          <span>Crews seen once</span>
-          <strong>90%</strong>
-          <em>crew-level samples are thin</em>
-        </div>
-      </div>
-      <p class="honest">An honest null is the deliverable. Markets don’t appear to leave this public signal on the table under this design.</p>
-    </div>
-  </section>
+    <section class="beat" data-beat="5">
+      <p class="kicker">The shot</p>
+      <h2>No edge.</h2>
+      <p>Crew features made out-of-sample log-loss slightly worse. Permutation p ≈ 0.57. The “signal” is noise.</p>
+    </section>
 
-  <!-- 7. BACKTEST CAVEAT -->
-  <section class="scene" id="backtest" data-scene="backtest">
-    <div class="scene-sticky">
-      <p class="eyebrow">06 · Polymarket layer</p>
-      <h2>One season of thin liquidity — not confirmatory.</h2>
-      <div class="pnl">
-        <div>
-          <span>Fractional Kelly return</span>
-          <strong class="bad">−8.9%</strong>
-        </div>
-        <div>
-          <span>Hit rate</span>
-          <strong>41.9%</strong>
-        </div>
-        <div>
-          <span>Sharpe-like</span>
-          <strong class="bad">−0.48</strong>
-        </div>
-      </div>
-      <p>Even a green P&L here wouldn’t overturn a null statistical test. This layer exists to show the full research stack — prices, staking, calibration — with the caveats printed in ink.</p>
-    </div>
-  </section>
+    <section class="beat" data-beat="6">
+      <p class="kicker">The caveat</p>
+      <h2>One Polymarket season isn’t proof either.</h2>
+      <p>Fractional Kelly on pre-tip prices lost money. Thin liquidity. The statistical null already said enough.</p>
+    </section>
 
-  <!-- 8. CLOSE -->
-  <section class="scene scene-end" id="end" data-scene="end">
-    <div class="scene-sticky">
-      <p class="brand end-brand">REFEDGE</p>
+    <section class="beat end" data-beat="7">
+      <p class="brand">REFEDGE</p>
       <h2>Built to be wrong carefully.</h2>
-      <p>Walk-forward validation · leakage tests · permutation null · sample-size caveats.</p>
-      <div class="cta-row">
-        <a class="cta" href="https://github.com/aarushkandukoori/nba-referee-market-edge" target="_blank" rel="noopener">View the repo</a>
-        <a class="cta ghost" href="https://github.com/aarushkandukoori/nba-referee-market-edge/blob/main/reports/findings.md" target="_blank" rel="noopener">Read findings.md</a>
-      </div>
-      <p class="site-note">Hosted on GitHub Pages at this project URL only — separate from aarushkandukoori.com.</p>
-    </div>
-  </section>
+      <p>Leakage controls · walk-forward · permutation · honest sample-size caveats.</p>
+      <p class="links">
+        <a href="https://github.com/aarushkandukoori/nba-referee-market-edge">Repo</a>
+        <a href="https://github.com/aarushkandukoori/nba-referee-market-edge/blob/main/reports/findings.md">Findings</a>
+      </p>
+    </section>
+  </main>
 
   <script src="./app.js"></script>
 </body>
