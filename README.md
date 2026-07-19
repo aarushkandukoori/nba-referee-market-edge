@@ -2,9 +2,6 @@
 
 **One-sentence pitch:** I tested whether NBA referee crews create a predictable edge on game totals in prediction markets — with a leakage-safe walk-forward backtest — and found **no statistically significant edge**.
 
-**Story site (GitHub Pages):** https://aarushkandukoori.github.io/nba-referee-market-edge/  
-*(project Pages URL only — not connected to aarushkandukoori.com)*
-
 This is a **research study, not a trading bot.**
 
 ---
