@@ -1,0 +1,32 @@
+# Data cache — never commit raw pulls or derived parquet (regenerate from source)
+/data/raw/
+/data/interim/
+/data/features/
+*.parquet
+*.feather
+*.duckdb
+
+# Secrets / API keys
+.env
+*.key
+secrets.toml
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+*.egg-info/
+.ipynb_checkpoints/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Reports output that is regenerated (keep written findings + metrics)
+/reports/figures/*.png
+/reports/*.html
+/reports/study.log
+
+# OS
+.DS_Store
