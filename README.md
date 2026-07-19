@@ -5,7 +5,7 @@
 **Story site (GitHub Pages):** https://aarushkandukoori.github.io/nba-referee-market-edge/  
 *(project Pages URL only — not connected to aarushkandukoori.com)*
 
-This is a **research study, not a trading bot.** The interesting part for FAANG/quant interviews is the experimental design (look-ahead control, baselines, permutation tests), not a made-up P&L.
+This is a **research study, not a trading bot.**
 
 ---
 
