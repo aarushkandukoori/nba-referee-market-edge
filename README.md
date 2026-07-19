@@ -4,6 +4,9 @@
 
 This is a **research study, not a trading bot.**
 
+**Scroll film (GitHub Pages):** [aarushkandukoori.github.io/nba-referee-market-edge](https://aarushkandukoori.github.io/nba-referee-market-edge/)  
+Hosted from this repo’s `/docs` folder on **project** Pages — separate from [aarushkandukoori.com](https://aarushkandukoori.com) (no custom-domain CNAME here).
+
 ---
 
 ## What I built (plain English)

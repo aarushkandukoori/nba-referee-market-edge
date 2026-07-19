@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Referee Market Edge — A Research Film</title>
+    <meta
+      name="description"
+      content="A scrollable research film: do NBA referee crews create a predictable edge on game totals in prediction markets?"
+    />
+    <meta name="theme-color" content="#071008" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="noise" aria-hidden="true"></div>
+    <div class="court-lines" aria-hidden="true"></div>
+
+    <nav class="rail" aria-label="Chapter progress">
+      <div class="rail__track">
+        <div class="rail__fill" id="progress"></div>
+      </div>
+      <ol class="rail__dots" id="dots"></ol>
+    </nav>
+
+    <header class="topbar">
+      <a class="topbar__brand" href="#intro">REF<span>/</span>EDGE</a>
+      <a
+        class="topbar__link"
+        href="https://github.com/aarushkandukoori/nba-referee-market-edge"
+        target="_blank"
+        rel="noopener"
+        >GitHub ↗</a
+      >
+    </header>
+
+    <main>
+      <!-- 01 INTRO -->
+      <section class="scene scene--intro" id="intro" data-chapter="01">
+        <div class="scene__inner">
+          <p class="kicker reveal">A research film · not a trading bot</p>
+          <h1 class="mega reveal">
+            <span class="mega__line">DO REFS</span>
+            <span class="mega__line mega__line--accent">LEAVE MONEY</span>
+            <span class="mega__line">ON THE TABLE?</span>
+          </h1>
+          <p class="lede reveal">
+            A leakage-safe walk-forward backtest of NBA referee crews vs.
+            prediction-market totals.
+          </p>
+          <div class="scroll-hint reveal" aria-hidden="true">
+            <span>Scroll the film</span>
+            <div class="scroll-hint__bar"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 02 HYPOTHESIS -->
+      <section class="scene scene--hypothesis" id="hypothesis" data-chapter="02">
+        <div class="scene__inner scene__inner--split">
+          <div>
+            <p class="chapter reveal">02 · Hypothesis</p>
+            <h2 class="display reveal">
+              Crews call fouls differently.<br />
+              Totals move.<br />
+              <em>Markets might lag.</em>
+            </h2>
+          </div>
+          <ul class="claim-list">
+            <li class="claim reveal">
+              <span class="claim__n">01</span>
+              <p>Some crews whistle more — tempo and free throws shift totals.</p>
+            </li>
+            <li class="claim reveal">
+              <span class="claim__n">02</span>
+              <p>Assignments are public before tip. Info is free.</p>
+            </li>
+            <li class="claim reveal">
+              <span class="claim__n">03</span>
+              <p>If Polymarket underreacts, over/under has an edge.</p>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 03 BUILD -->
+      <section class="scene scene--build" id="build" data-chapter="03">
+        <div class="scene__inner">
+          <p class="chapter reveal">03 · What got built</p>
+          <h2 class="display display--tight reveal">Six moves. Zero shortcuts.</h2>
+          <div class="pipeline" id="pipeline">
+            <article class="pipe reveal">
+              <span class="pipe__step">01</span>
+              <h3>Dataset</h3>
+              <p>5+ seasons of games, three officials, team form.</p>
+            </article>
+            <article class="pipe reveal">
+              <span class="pipe__step">02</span>
+              <h3>Rolling refs</h3>
+              <p>Features only from games <em>before</em> the tip being scored.</p>
+            </article>
+            <article class="pipe reveal">
+              <span class="pipe__step">03</span>
+              <h3>Two models</h3>
+              <p>Baseline vs treatment — same frame, refs on/off.</p>
+            </article>
+            <article class="pipe reveal">
+              <span class="pipe__step">04</span>
+              <h3>Walk-forward</h3>
+              <p>Train past seasons. Test the next. No random splits.</p>
+            </article>
+            <article class="pipe reveal">
+              <span class="pipe__step">05</span>
+              <h3>Permute</h3>
+              <p>Shuffle crew labels. Is the “edge” just noise?</p>
+            </article>
+            <article class="pipe reveal">
+              <span class="pipe__step">06</span>
+              <h3>Kelly sim</h3>
+              <p>Fractional Kelly on pre-tip Polymarket prints.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- 04 LEAKAGE -->
+      <section class="scene scene--leakage" id="leakage" data-chapter="04">
+        <div class="scene__inner">
+          <p class="chapter reveal">04 · Designed against cheating</p>
+          <h2 class="display reveal">Look-ahead bias<br />was the enemy.</h2>
+          <div class="guard-grid">
+            <div class="guard reveal">
+              <h3>Rolling, never season-avg</h3>
+              <p>Referee stats stop at the prior game. Current tip excluded.</p>
+            </div>
+            <div class="guard reveal">
+              <h3>Shrinkage</h3>
+              <p>Thin histories pull toward a time-varying league prior.</p>
+            </div>
+            <div class="guard reveal">
+              <h3>Market as control</h3>
+              <p>Hunt incremental edge — not the whole total.</p>
+            </div>
+            <div class="guard reveal">
+              <h3>Pre-tip prices only</h3>
+              <p>Last Polymarket print before tip. Never settlement.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 05 COMPARISON -->
+      <section class="scene scene--compare" id="compare" data-chapter="05">
+        <div class="scene__inner">
+          <p class="chapter reveal">05 · The result is the comparison</p>
+          <h2 class="display reveal">Baseline vs treatment.</h2>
+          <div class="duel">
+            <div class="duel__card reveal" data-side="base">
+              <p class="duel__label">Baseline</p>
+              <p class="duel__body">Market line + team / game form</p>
+              <p class="duel__tag">No referee info</p>
+            </div>
+            <div class="duel__vs reveal" aria-hidden="true">VS</div>
+            <div class="duel__card duel__card--hot reveal" data-side="treat">
+              <p class="duel__label">Treatment</p>
+              <p class="duel__body">Baseline + rolling crew features</p>
+              <p class="duel__tag">The alleged edge</p>
+            </div>
+          </div>
+          <p class="footnote reveal">
+            If treatment doesn’t beat baseline on out-of-sample log-loss / Brier —
+            there is no edge.
+          </p>
+        </div>
+      </section>
+
+      <!-- 06 NUMBERS -->
+      <section class="scene scene--numbers" id="numbers" data-chapter="06">
+        <div class="scene__inner">
+          <p class="chapter reveal">06 · Headline numbers</p>
+          <div class="stat-wall">
+            <div class="stat reveal">
+              <p class="stat__value" data-count="5041" data-suffix="">0</p>
+              <p class="stat__label">Train games · 2018–23</p>
+            </div>
+            <div class="stat reveal">
+              <p class="stat__value" data-count="1838" data-suffix="">0</p>
+              <p class="stat__label">OOS walk-forward games</p>
+            </div>
+            <div class="stat stat--accent reveal">
+              <p class="stat__value" data-count="0.00038" data-prefix="+" data-decimals="5">
+                0
+              </p>
+              <p class="stat__label">Δ log-loss · treatment worse</p>
+            </div>
+            <div class="stat reveal">
+              <p class="stat__value" data-count="0.57" data-decimals="2">0</p>
+              <p class="stat__label">Permutation p-value</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 07 VERDICT -->
+      <section class="scene scene--verdict" id="verdict" data-chapter="07">
+        <div class="scene__inner scene__inner--center">
+          <p class="chapter reveal">07 · Verdict</p>
+          <h2 class="mega mega--sm reveal">
+            <span class="mega__line">HONEST</span>
+            <span class="mega__line mega__line--accent">NULL</span>
+          </h2>
+          <p class="lede lede--narrow reveal">
+            Referee features did not beat the market + team baseline out of sample.
+            Under this design, markets don’t leave this on the table.
+          </p>
+          <div class="pill-row reveal">
+            <span class="pill">Δ log-loss +0.00038</span>
+            <span class="pill">p ≈ 0.57</span>
+            <span class="pill">Polymarket Kelly −8.9%</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 08 EVIDENCE -->
+      <section class="scene scene--evidence" id="evidence" data-chapter="08">
+        <div class="scene__inner">
+          <p class="chapter reveal">08 · Charts from the study</p>
+          <h2 class="display reveal">Calibration &amp; equity.</h2>
+          <div class="figures">
+            <figure class="figure reveal">
+              <img
+                src="./assets/calibration.png"
+                alt="Calibration plot comparing baseline and treatment models"
+                loading="lazy"
+              />
+              <figcaption>Calibration · treatment vs baseline</figcaption>
+            </figure>
+            <figure class="figure reveal">
+              <img
+                src="./assets/equity.png"
+                alt="Equity curve from Polymarket Kelly backtest"
+                loading="lazy"
+              />
+              <figcaption>Polymarket Kelly equity · single season, underpowered</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- 09 END -->
+      <section class="scene scene--end" id="end" data-chapter="09">
+        <div class="scene__inner scene__inner--center">
+          <p class="chapter reveal">09 · Open study</p>
+          <h2 class="display reveal">Reproduce it. Stress it. Break it.</h2>
+          <p class="lede lede--narrow reveal">
+            Full write-up, metrics, and leakage tests live in the repo.
+          </p>
+          <div class="cta-row reveal">
+            <a
+              class="cta cta--primary"
+              href="https://github.com/aarushkandukoori/nba-referee-market-edge"
+              target="_blank"
+              rel="noopener"
+              >Open the repo</a
+            >
+            <a
+              class="cta cta--ghost"
+              href="https://github.com/aarushkandukoori/nba-referee-market-edge/blob/main/reports/findings.md"
+              target="_blank"
+              rel="noopener"
+              >Read findings.md</a
+            >
+          </div>
+          <p class="credit reveal">
+            Built by
+            <a href="https://aarushkandukoori.com" target="_blank" rel="noopener"
+              >aarushkandukoori.com</a
+            >
+            · hosted on project GitHub Pages
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="./script.js"></script>
+  </body>
+</html>
